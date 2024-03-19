@@ -8,7 +8,7 @@ import { customerRouter } from "./mongodb/routes/customer.routes.mjs";
 import { rentalRouter } from "./mongodb/routes/rentalRoutes.mjs";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
-
+import { calculateTotalRentalCharges1FromRentalId, calculateTotalRentalCharges2FromRentalId,calculateTotalRentalCharges3FromRentalId } from "./calculations/calculateRentbyRental.mjs";
 
 dotenv.config();
 // Define interface for books rented
@@ -59,13 +59,20 @@ app.get('/:rentalId' , async (req , res ) => {
         
         if(!rental)
         {
-            return res.status(404).json({errot: 'Rental Information not found'})
+            return res.status(404).json({error: 'Rental Information not found'})
         }
+        const totalCharges1 = await calculateTotalRentalCharges1(rentalId);
+        const totalCharges2 = await calculateTotalRentalCharges2(rentalId);
+        const totalCharges3 = await calculateTotalRentalCharges3(rentalId);
         
 
+        res.status(200).json({ rentalId, totalCharges1 ,totalCharges2 , totalCharges3 });
     } catch (error) {
-        
+        console.error('Error calculating rental charges:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
+
+
 })
 
 

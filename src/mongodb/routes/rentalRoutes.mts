@@ -7,7 +7,7 @@ import exp from "constants";
 
 
 //post a book for rent
-router.post('/addRental', async(req,res) => {   //remove
+router.post('/', async(req,res) => {   //remove
 
     try {
         const data1 = await req.body;
@@ -40,7 +40,7 @@ router.post('/addRental', async(req,res) => {   //remove
 // get a book for rent
 
 //get details of customer by id
-router.get('/getRental/:rentalId', async(req,res) => {
+router.get('/:rentalId', async(req,res) => {
     try {
 
         const data = await BooksRented.findById(req.params.rentalId);
@@ -57,7 +57,7 @@ router.get('/getRental/:rentalId', async(req,res) => {
 
 
 //update the status of rental from isactive true to isactve false or update date of rental
-router.patch('/updateRental/:rentalId', async(req,res) => {
+router.patch('/:rentalId', async(req,res) => {
 
     try {
         const updatedData = await  BooksRented.findByIdAndUpdate(req.params.rentalId,req.body);
@@ -76,7 +76,7 @@ router.patch('/updateRental/:rentalId', async(req,res) => {
 
 // Delete the rented book
 
-router.delete('/deleteRental/:rentalId', async( req,res) => {
+router.delete('/:rentalId', async( req,res) => {
 
     try {
         const data =  await BooksRented.findById(req.params.rentalId)

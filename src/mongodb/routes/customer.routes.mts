@@ -6,7 +6,7 @@ import { BooksRented, Customer } from "../models/book.mjs";
 
 
 //add a  customer
-router.post('/addCustomer', async(req,res) => {  // remove add customer
+router.post('/', async(req,res) => {  // remove add customer
 
     try {
         console.log(req.body)
@@ -24,7 +24,7 @@ router.post('/addCustomer', async(req,res) => {  // remove add customer
 })
 
 //get details of customer by id
-router.get('/getCustomer/:customerId', async(req,res) => {  //remove getCustmer
+router.get('/:customerId', async(req,res) => {  //remove getCustmer
     try {
 
         const data = await Customer.findById(req.params.customerId);
@@ -41,7 +41,7 @@ router.get('/getCustomer/:customerId', async(req,res) => {  //remove getCustmer
 
 
 // update a Customer
-router.patch('/updateCustomer/:customerId', async(req,res) => {  // add put 
+router.put('/:customerId', async(req,res) => {  // add put 
 
     try {
         const updatedData = await  Customer.findByIdAndUpdate(req.params.customerId,req.body);
@@ -60,7 +60,7 @@ router.patch('/updateCustomer/:customerId', async(req,res) => {  // add put
 
 // delete a Customer
 
-router.delete('/deleteCustomer/:customerId', async( req,res) => { //remove deleteCustomer
+router.delete('/:customerId', async( req,res) => { //remove deleteCustomer
 
     try {
         const booksRentedStatus  = await BooksRented.find({customerId : req.params.customerId, isActive : true})
