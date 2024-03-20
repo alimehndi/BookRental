@@ -35,7 +35,7 @@ router.get('/:rentalId', async (req, res) => {
     }
 });
 //update the status of rental from isactive true to isactve false or update date of rental
-router.patch('/:rentalId', async (req, res) => {
+router.put('/:rentalId', async (req, res) => {
     try {
         const updatedData = await BooksRented.findByIdAndUpdate(req.params.rentalId, req.body);
         if (!updatedData) {

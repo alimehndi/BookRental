@@ -5,7 +5,7 @@ interface IBooks extends Document{
     _id: string,
     title: string,
     author: string,
-    bookType: string,
+    bookType: 'Regular' | 'Fiction' | 'Novel',
 }
  
 const BooksSchema :Schema = new Schema ({

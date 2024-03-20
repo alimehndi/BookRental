@@ -8,6 +8,7 @@ import { customerRouter } from "./mongodb/routes/customer.routes.mjs";
 import { rentalRouter } from "./mongodb/routes/rentalRoutes.mjs";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import { calculateTotalRentalCharges1FromRentalId, calculateTotalRentalCharges2FromRentalId, calculateTotalRentalCharges3FromRentalId } from "./calculations/calculateRentbyRental.mjs";
 dotenv.config();
 const port = 8000;
 const MongoDB_connection_string = process.env.DB_URI; //"mongodb+srv://alimehndi99:alimehndi99@cluster0.alv9hi3.mongodb.net/new"
@@ -33,20 +34,20 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
-app.use('/api', bookRouter); // /books 
-app.use('/api', customerRouter); // /customer
-app.use('/api/rental', rentalRouter); // rental
+app.use('/api/books', bookRouter);
+app.use('/api/customer', customerRouter);
+app.use('/api/rental', rentalRouter);
 //Calculate Rental charges based on the rental id
-app.get('/:rentalId', async (req, res) => {
+app.get('/rental/:rentalId', async (req, res) => {
     try {
         const rentalId = req.params.rentalId;
         const rental = await BooksRented.findById(rentalId);
         if (!rental) {
             return res.status(404).json({ error: 'Rental Information not found' });
         }
-        const totalCharges1 = await calculateTotalRentalCharges1(rentalId);
-        const totalCharges2 = await calculateTotalRentalCharges2(rentalId);
-        const totalCharges3 = await calculateTotalRentalCharges3(rentalId);
+        const totalCharges1 = await calculateTotalRentalCharges1FromRentalId(rentalId);
+        const totalCharges2 = await calculateTotalRentalCharges2FromRentalId(rentalId);
+        const totalCharges3 = await calculateTotalRentalCharges3FromRentalId(rentalId);
         res.status(200).json({ rentalId, totalCharges1, totalCharges2, totalCharges3 });
     }
     catch (error) {
@@ -55,7 +56,7 @@ app.get('/:rentalId', async (req, res) => {
     }
 });
 // Route to calculate total rental charges for all rentals of a customer
-app.get('/calculate-charges/:customerId', async (req, res) => {
+app.get('/customer/:customerId', async (req, res) => {
     try {
         // Retrieve customer ID from URL parameter
         const customerId = req.params.customerId;

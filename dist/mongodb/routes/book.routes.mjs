@@ -27,7 +27,7 @@ router.get('/:bookId', async (req, res) => {
 });
 router.put('/:bookId', async (req, res) => {
     try {
-        const updatedData = await Books.findByIdAndUpdate(req.params.bookId, req.body);
+        const updatedData = await Books.findByIdAndUpdate(req.params.bookId, req.body, { new: true });
         if (!updatedData) {
             return res.status(404).json({ message: 'User not found' });
         }

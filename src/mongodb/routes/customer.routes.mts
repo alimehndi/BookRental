@@ -44,7 +44,7 @@ router.get('/:customerId', async(req,res) => {  //remove getCustmer
 router.put('/:customerId', async(req,res) => {  // add put 
 
     try {
-        const updatedData = await  Customer.findByIdAndUpdate(req.params.customerId,req.body);
+        const updatedData = await  Customer.findByIdAndUpdate(req.params.customerId,req.body,{new :true});
         if(!updatedData)
         {
             return res.status(404).json({ message: 'User not found' });    

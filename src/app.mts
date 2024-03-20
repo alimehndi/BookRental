@@ -47,12 +47,12 @@ app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
-app.use('/api',bookRouter); // /books 
-app.use('/api',customerRouter); // /customer
-app.use('/api/rental',rentalRouter); // rental
+app.use('/api/books',bookRouter); 
+app.use('/api/customer',customerRouter); 
+app.use('/api/rental',rentalRouter); 
 
 //Calculate Rental charges based on the rental id
-app.get('/:rentalId' , async (req , res ) => {
+app.get('/rental/:rentalId' , async (req , res ) => {
     try {
         const rentalId : string = req.params.rentalId;
         const rental = await BooksRented.findById(rentalId);
@@ -61,9 +61,9 @@ app.get('/:rentalId' , async (req , res ) => {
         {
             return res.status(404).json({error: 'Rental Information not found'})
         }
-        const totalCharges1 = await calculateTotalRentalCharges1(rentalId);
-        const totalCharges2 = await calculateTotalRentalCharges2(rentalId);
-        const totalCharges3 = await calculateTotalRentalCharges3(rentalId);
+        const totalCharges1 = await calculateTotalRentalCharges1FromRentalId(rentalId);
+        const totalCharges2 = await calculateTotalRentalCharges2FromRentalId(rentalId);
+        const totalCharges3 = await calculateTotalRentalCharges3FromRentalId(rentalId);
         
 
         res.status(200).json({ rentalId, totalCharges1 ,totalCharges2 , totalCharges3 });
@@ -78,7 +78,7 @@ app.get('/:rentalId' , async (req , res ) => {
 
 
 // Route to calculate total rental charges for all rentals of a customer
-app.get('/calculate-charges/:customerId', async (req, res) => {
+app.get('/customer/:customerId', async (req, res) => {
     try {
         // Retrieve customer ID from URL parameter
         const customerId: string = req.params.customerId;
