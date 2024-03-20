@@ -12,8 +12,9 @@ const BooksSchema :Schema = new Schema ({
     _id: String,
     title: String,
     author: String,
-    bookType: String, //enum
-
+    bookType:{ 
+        type: String,
+        enum:['Regular', 'Fiction','Novel'] },
 })
 
 
