@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
-import { Customer } from "./mongodb/models/book.mjs";
+import { BooksRented, Customer } from "./mongodb/models/book.mjs";
 import { calculateTotalRentalCharges1, calculateTotalRentalCharges2, calculateTotalRentalCharges3 } from "./calculations/calculateRent.mjs";
 import { bookRouter } from "./mongodb/routes/book.routes.mjs";
 import { customerRouter } from "./mongodb/routes/customer.routes.mjs";
@@ -33,9 +33,27 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
-app.use('/api', bookRouter);
-app.use('/api', customerRouter);
-app.use('/api', rentalRouter);
+app.use('/api', bookRouter); // /books 
+app.use('/api', customerRouter); // /customer
+app.use('/api/rental', rentalRouter); // rental
+//Calculate Rental charges based on the rental id
+app.get('/:rentalId', async (req, res) => {
+    try {
+        const rentalId = req.params.rentalId;
+        const rental = await BooksRented.findById(rentalId);
+        if (!rental) {
+            return res.status(404).json({ error: 'Rental Information not found' });
+        }
+        const totalCharges1 = await calculateTotalRentalCharges1(rentalId);
+        const totalCharges2 = await calculateTotalRentalCharges2(rentalId);
+        const totalCharges3 = await calculateTotalRentalCharges3(rentalId);
+        res.status(200).json({ rentalId, totalCharges1, totalCharges2, totalCharges3 });
+    }
+    catch (error) {
+        console.error('Error calculating rental charges:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 // Route to calculate total rental charges for all rentals of a customer
 app.get('/calculate-charges/:customerId', async (req, res) => {
     try {

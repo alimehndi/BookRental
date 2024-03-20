@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import { Books, BooksRented, Customer } from "../models/book.mjs";
 //post a book for rent
-router.post('/addRental', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const data1 = await req.body;
         const book = await Books.findById(data1.bookId);
@@ -23,16 +23,11 @@ router.post('/addRental', async (req, res) => {
 });
 // get a book for rent
 //get details of customer by id
-router.get('/getRental/:rentalId', async (req, res) => {
+router.get('/:rentalId', async (req, res) => {
     try {
         const data = await BooksRented.findById(req.params.rentalId);
-        if (!data) {
-            res.status(200).send(`Data Not found`);
-        }
-        else {
-            console.log('A book rental informattion is retrieved');
-            res.status(200).send(data);
-        }
+        console.log('A book rental informattion is retrieved');
+        res.status(200).send(data);
     }
     catch (error) {
         res.status(500);
@@ -40,7 +35,7 @@ router.get('/getRental/:rentalId', async (req, res) => {
     }
 });
 //update the status of rental from isactive true to isactve false or update date of rental
-router.patch('/updateRental/:rentalId', async (req, res) => {
+router.patch('/:rentalId', async (req, res) => {
     try {
         const updatedData = await BooksRented.findByIdAndUpdate(req.params.rentalId, req.body);
         if (!updatedData) {
@@ -55,7 +50,7 @@ router.patch('/updateRental/:rentalId', async (req, res) => {
     }
 });
 // Delete the rented book
-router.delete('/deleteRental/:rentalId', async (req, res) => {
+router.delete('/:rentalId', async (req, res) => {
     try {
         const data = await BooksRented.findById(req.params.rentalId);
         if (!data?.isActive) {

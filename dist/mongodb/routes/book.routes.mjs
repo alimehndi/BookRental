@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import { Books, BooksRented } from "../models/book.mjs";
 //Add a book
-router.post('/addBook', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const data = await Books.create(req.body);
         console.log(`A book has been added to database`);
@@ -14,7 +14,7 @@ router.post('/addBook', async (req, res) => {
         console.log('Error creating a Book', error);
     }
 });
-router.get('/getBook/:bookId', async (req, res) => {
+router.get('/:bookId', async (req, res) => {
     try {
         const data = await Books.findById(req.params.bookId);
         console.log(`A book is retrieved by Id`);
@@ -25,7 +25,7 @@ router.get('/getBook/:bookId', async (req, res) => {
         console.log('Error retirieving by Id', error);
     }
 });
-router.patch('/updateBook/:bookId', async (req, res) => {
+router.put('/:bookId', async (req, res) => {
     try {
         const updatedData = await Books.findByIdAndUpdate(req.params.bookId, req.body);
         if (!updatedData) {
@@ -40,7 +40,7 @@ router.patch('/updateBook/:bookId', async (req, res) => {
     }
 });
 // delete a Customer
-router.delete('/deleteBook/:bookId', async (req, res) => {
+router.delete('/:bookId', async (req, res) => {
     try {
         const booksRentedStatus = await BooksRented.find({ bookId: req.params.bookId, isActive: true });
         if (booksRentedStatus.length != 0) {

@@ -3,7 +3,10 @@ const BooksSchema = new Schema({
     _id: String,
     title: String,
     author: String,
-    bookType: String,
+    bookType: {
+        type: String,
+        enum: ['Regular', 'Fiction', 'Novel']
+    },
 });
 const booksRentedSchema = new Schema({
     bookId: String,
