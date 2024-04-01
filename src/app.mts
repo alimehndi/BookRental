@@ -36,7 +36,7 @@ app.get('/rental/:rentalId' , async (req , res ) => {
     try {
         const rentalId : string = req.params.rentalId;
         const rental = await BooksRented.findById(rentalId);
-        
+    
         if(!rental)
         {
             return res.status(404).json({error: 'Rental Information not found'})

@@ -1,7 +1,6 @@
 import { Books } from "../mongodb/models/book.mjs";
 import { app } from "../app.mjs";
 import  supertest  from 'supertest';
-import { BooksRented } from "../mongodb/models/book.mjs";
 const port = 3000
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
