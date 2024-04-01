@@ -62,7 +62,7 @@ app.get('/customer/:customerId', async (req, res) => {
         res.status(200).json({ customerId, totalCharges1, totalCharges2, totalCharges3 });
     }
     catch (error) {
-        console.error('Error calculating rental charges:', error);
+        //console.error('Error calculating rental charges:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
