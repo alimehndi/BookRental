@@ -9,7 +9,6 @@ router.post('/', async (req,res) => {
         console.log(`A book has been added to database`);
         res.status(200).send(data);
         console.log(data);
-
     } catch (error) {
         res.status(500)
         console.log('Error creating a Book',error);
@@ -20,9 +19,13 @@ router.post('/', async (req,res) => {
 router.get('/:bookId', async (req,res) => {
     try {
         const data = await Books.findById(req.params.bookId)
+        if(!data)
+        {
+            res.status(500); 
+        }else{
         console.log(`A book is retrieved by Id`);
         res.status(200).send(data);
-
+        }
     } catch (error) {
         res.status(500)
         console.log('Error retirieving by Id', error);
@@ -40,7 +43,6 @@ router.put('/:bookId', async (req,res) => {
         }
         console.log('Books Updated Successfully');
         res.status(200).send(updatedData);
-
     } catch (error) {
         res.status(500)
         console.log('Error occured in updating Book',error)

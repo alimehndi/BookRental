@@ -32,9 +32,9 @@ const calculateTotalRentalCharges2 = async (customerId) => {
                 case 'Novel':
                     totalCharge += await calculateChargesForNovel2(days); // Novels charge Rs. 1.5 per day
                     break;
-                default:
-                    totalCharge += days; // Default charge Rs. 1 per day
-                    break;
+                // default:
+                //     totalCharge += days; // Default charge Rs. 1 per day
+                //     break;
             }
         }
     }
@@ -53,14 +53,14 @@ const calculateTotalRentalCharges3 = async (customerId) => {
                     totalCharge += await calculateChargesForRegular3(days);
                     break;
                 case 'Fiction':
-                    totalCharge += await calculateChargesForFiction3(days); // Fiction books charge Rs. 3 per day
+                    totalCharge += await calculateChargesForFiction3(days);
                     break;
                 case 'Novel':
                     totalCharge += await calculateChargesForNovel3(days);
                     break;
-                default:
-                    totalCharge += days; // Default charge Rs. 1 per day
-                    break;
+                // default:
+                //     totalCharge += days; // Default charge Rs. 1 per day
+                //     break;
             }
         }
     }

@@ -17,8 +17,13 @@ router.post('/', async (req, res) => {
 router.get('/:bookId', async (req, res) => {
     try {
         const data = await Books.findById(req.params.bookId);
-        console.log(`A book is retrieved by Id`);
-        res.status(200).send(data);
+        if (!data) {
+            res.status(500);
+        }
+        else {
+            console.log(`A book is retrieved by Id`);
+            res.status(200).send(data);
+        }
     }
     catch (error) {
         res.status(500);

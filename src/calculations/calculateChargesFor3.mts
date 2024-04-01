@@ -1,4 +1,4 @@
-const calculateChargesForRegular3 = async (days : number) => {
+const calculateChargesForRegular3 = async (days : number) : Promise<number> => {
     let chargeRegular:number =0;
     if (days <= 2) {
         chargeRegular += 2; // Minimum charge Rs. 2 for first 2 days
@@ -7,11 +7,11 @@ const calculateChargesForRegular3 = async (days : number) => {
     }
     return chargeRegular;
    }
-const calculateChargesForFiction3 = async (days : number) => {
+const calculateChargesForFiction3 = async (days : number) : Promise<number> => {
 
  return days*3;
 }
-const calculateChargesForNovel3 = async (days : number) => {
+const calculateChargesForNovel3 = async (days : number) : Promise<number> => {
     let chargeNovel :number =0;
     if (days < 3) {
         chargeNovel += 4.5; // Minimum charge Rs. 4.5 for novels rented less than 3 days

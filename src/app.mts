@@ -1,41 +1,21 @@
 import  express  from "express";
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
-import {BooksRented , Customer } from "./mongodb/models/book.mjs";
-import {calculateTotalRentalCharges1,calculateTotalRentalCharges2,calculateTotalRentalCharges3} from "./calculations/calculateRent.mjs" ;
-import { bookRouter } from "./mongodb/routes/book.routes.mjs";
-import { customerRouter } from "./mongodb/routes/customer.routes.mjs";
+import {IBooksRented ,BooksRented , Customer } from "./mongodb/models/book.mjs";
+import {calculateTotalRentalCharges1,calculateTotalRentalCharges2,calculateTotalRentalCharges3} from "./calculations/calculateRentByCustomerId.mjs" ;
+import { bookRouter } from "./mongodb/routes/bookRoutes.mjs";
+import { customerRouter } from "./mongodb/routes/customerRoutes.mjs";
 import { rentalRouter } from "./mongodb/routes/rentalRoutes.mjs";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
-import { calculateTotalRentalCharges1FromRentalId, calculateTotalRentalCharges2FromRentalId,calculateTotalRentalCharges3FromRentalId } from "./calculations/calculateRentbyRental.mjs";
-
+import { calculateTotalRentalCharges1FromRentalId, calculateTotalRentalCharges2FromRentalId,calculateTotalRentalCharges3FromRentalId } from "./calculations/calculateRentbyRentalId.mjs";
+import connectDB from "./mongodb/connectDB.mjs";
 dotenv.config();
-// Define interface for books rented
-interface IBooksRented extends Document {
-    booktype: string;
-    noOfDaysRented: number;
-}
- 
 const port =8000;
+//connection to Database
+connectDB();
 
-const MongoDB_connection_string = process.env.DB_URI as string; //"mongodb+srv://alimehndi99:alimehndi99@cluster0.alv9hi3.mongodb.net/new"
-
-console.log(MongoDB_connection_string);
-
-async function connectToMongoDb(connectionString: string) {
-    await mongoose.connect(connectionString);
-    console.log("Connected To MongoDb database");
-}
-
-try {
-    await connectToMongoDb(MongoDB_connection_string);
-}
-catch (e) {
-    console.log("error connecting to database", e);
-}
-
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended :false}));
 app.use(cors());
@@ -43,9 +23,9 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
-app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`[server]: Server is running at http://localhost:${port}`);
+// });
 
 app.use('/api/books',bookRouter); 
 app.use('/api/customer',customerRouter); 
